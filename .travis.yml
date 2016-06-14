@@ -4,8 +4,15 @@ os:
   - linux
 env:
   global:
+  - BUILD_FOLDER=$TRAVIS_BUILD_DIR/build.tmp  
   - SKETCH_LOCATION="$TRAVIS_BUILD_DIR/libraries"
-
+  - LIBRARIES_LOCATION="$HOME/Arduino/libraries"
+  - BOARD_TYPE=generic
+  - FLASH_SIZE=4M3M    #512K0,512K64,1M512,4M1M,4M3M
+  - CPU_SPEED=80 
+  - OUTPUT_FILE=
+  - DEBUG_PORT=
+  - DEBUG_LEVEL=
 addons:
   apt:
     sources:
@@ -39,7 +46,7 @@ script:
   - install_libraries
   - echo -e "travis_fold:end:sketch_test_env_prepare"
   - echo -e "travis_fold:start:sketch_test"
-  - build_sketches $HOME/arduino_ide $SKETCH_LOCATION build.tmp "-l $HOME/Arduino/libraries -b generic"
+  - build_sketches $HOME/arduino_ide $SKETCH_LOCATION $BUILD_FOLDER "-l $LIBRARIES_LOCATION -b $BOARD_TYPE -s $FLASH_SIZE -f $CPU_SPEED -o $OUTPUT_FILE --debug_port $DEBUG_PORT --debug_level $DEBUG_LEVEL"
   - echo -e "travis_fold:end:sketch_test"
   - echo -e "travis_fold:start:size_report"
   - cat size.log
