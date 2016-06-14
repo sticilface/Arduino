@@ -32,7 +32,7 @@ extern "C" {
 #include "user_interface.h"
 #include "cont.h"
 }
-#include <core_version.h>
+#include "core_version.h"
 
 #define LOOP_TASK_PRIORITY 1
 #define LOOP_QUEUE_SIZE    1
