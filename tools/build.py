@@ -88,7 +88,7 @@ def parse_args():
                         type=int, choices=[40, 80])
     parser.add_argument('--debug_port', help='Debug port', default='',
                         choices=['Serial', 'Serial1'])
-    parser.add_argument('--debug_level', help='Debug level', dafult='')
+    parser.add_argument('--debug_level', help='Debug level', default='')
     parser.add_argument('sketch_path', help='Sketch file path', default='')
     return parser.parse_args()
 
