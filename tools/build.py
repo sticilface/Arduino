@@ -86,10 +86,10 @@ def parse_args():
                         help='Don\'t delete temporary build directory')
     parser.add_argument('--flash_freq', help='Flash frequency', default=40,
                         type=int, choices=[40, 80])
-    parser.add_argument('--debug_port', help='Debug port', nargs='?',
+    parser.add_argument('--debug_port', help='Debug port', 
                         choices=['Serial', 'Serial1'])
-    parser.add_argument('--debug_level', help='Debug level', nargs='?')
-    parser.add_argument('sketch_path', help='Sketch file path', nargs='?')
+    parser.add_argument('--debug_level', help='Debug level')
+    parser.add_argument('sketch_path', help='Sketch file path')
     return parser.parse_args()
 
 def main():
