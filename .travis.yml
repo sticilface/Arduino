@@ -2,6 +2,9 @@ sudo: false
 language: bash
 os:
   - linux
+env:
+  global:
+  - SKETCH_LOCATION="$TRAVIS_BUILD_DIR/libraries"
 
 addons:
   apt:
@@ -29,14 +32,14 @@ script:
   - ln -s $TRAVIS_BUILD_DIR esp8266
   - cd esp8266/tools
   - python get.py
-  - export PATH="$HOME/arduino_ide:$TRAVIS_BUILD_DIR/tools/xtensa-lx106-elf/bin:$PATH"
+  - export PATH="$HOME/arduino_ide:$HOME/arduino_ide/hardware/esp8266com/esp8266/tools/xtensa-lx106-elf/bin:$PATH"
   - which arduino
   - cd $TRAVIS_BUILD_DIR
   - source tests/common.sh
   - install_libraries
   - echo -e "travis_fold:end:sketch_test_env_prepare"
   - echo -e "travis_fold:start:sketch_test"
-  - build_sketches $HOME/arduino_ide $TRAVIS_BUILD_DIR/libraries "-l $HOME/Arduino/libraries"
+  - build_sketches $HOME/arduino_ide $SKETCH_LOCATION "-l $HOME/Arduino/libraries"
   - echo -e "travis_fold:end:sketch_test"
   - echo -e "travis_fold:start:size_report"
   - cat size.log
