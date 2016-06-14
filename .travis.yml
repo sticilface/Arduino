@@ -47,7 +47,7 @@ script:
   - echo -e "travis_fold:end:sketch_test_env_prepare"
   - echo -e "travis_fold:start:sketch_test"
   #- build_sketches $HOME/arduino_ide $SKETCH_LOCATION $BUILD_FOLDER "-l $LIBRARIES_LOCATION -b $BOARD_TYPE -s $FLASH_SIZE -f $CPU_SPEED --debug_port $DEBUG_PORT --debug_level $DEBUG_LEVEL"
-  - build_sketches $HOME/arduino_ide $SKETCH_LOCATION $BUILD_FOLDER "$LIBRARIES_LOCATION $BOARD_TYPE $FLASH_SIZE $CPU_SPEED $DEBUG_LEVEL"
+  - build_sketches $HOME/arduino_ide $SKETCH_LOCATION $BUILD_FOLDER "$LIBRARIES_LOCATION $OUTPUT_FILE $BOARD_TYPE $FLASH_SIZE $CPU_SPEED $DEBUG_PORT $DEBUG_LEVEL"
   - echo -e "travis_fold:end:sketch_test"
   - echo -e "travis_fold:start:size_report"
   - cat size.log
