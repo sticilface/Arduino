@@ -10,7 +10,7 @@ env:
   #- PLATFORMIO_CI_SRC="$TRAVIS_BUILD_DIR/libraries" 
   - PLATFORMIO_CI_SRC="$TRAVIS_BUILD_DIR/libraries/esp8266/examples/Blink/"
   - PLATFORMIO_CI_SRC="$TRAVIS_BUILD_DIR/libraries/ESP8266WebServer/examples/AdvancedWebServer"
-  - PLATFORMIO_CI_SRC="$TRAVIS_BUILD_DIR/libs/ESPmanager/examples"
+  - PLATFORMIO_CI_SRC="$TRAVIS_BUILD_DIR/ESPman/src"
 
 install:
   - pip install -U platformio
