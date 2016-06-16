@@ -29,7 +29,7 @@ install:
   - ls $TRAVIS_BUILD_DIR/ESPman/src
 
 script:
-  - platformio ci --board="esp12e" --build-dir="/tmp/build" --lib="." --lib="$TRAVIS_BUILD_DIR/libs/ESPmanager" --lib="$TRAVIS_BUILD_DIR/libs/ArduinoJson" 
+  - platformio ci --board="esp12e" --build-dir="/tmp/build" --lib="$TRAVIS_BUILD_DIR/libs/ESPmanager" --lib="$TRAVIS_BUILD_DIR/libs/ArduinoJson" 
     --lib="$TRAVIS_BUILD_DIR/libs/ESPAsyncTCP" --lib="$TRAVIS_BUILD_DIR/libs/ESPAsyncWebServer"
 
 
