@@ -1,58 +1,81 @@
-
+language: python
+python:
+- '2.7'
 sudo: false
-language: bash
-os:
-  - linux
+cache:
+  directories:
+  - ~/.platformio
 env:
-  global:
-  - BUILD_FOLDER=$TRAVIS_BUILD_DIR/build.tmp  
-  - SKETCH_LOCATION="$TRAVIS_BUILD_DIR/libraries"
-  - LIBRARIES_LOCATION="-l $HOME/Arduino/libraries"
-  - BOARD_TYPE="-b generic"
-  - FLASH_SIZE="-s 4M3M"    #512K0,512K64,1M512,4M1M,4M3M
-  #- CPU_SPEED="-f 80" 
-  #- OUTPUT_FILE="-o somefile"
-  #- DEBUG_PORT="--debug_port Serial"
-  #- DEBUG_LEVEL="--debug_level "
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
-
+  matrix:
+  - PLATFORMIO_CI_SRC="$TRAVIS_BUILD_DIR/libraries" 
+install:
+  - pip install -U platformio
+  #- git clone https://github.com/esp8266/Arduino.git ./platformio/packages/framework-arduinoespressif
+  # - git clone https://github.com/sticilface/arduino-esp8266 ./platformio/packages/framework-arduinoespressif
+  - platformio lib install 64
+  - mkdir /tmp/build
 script:
-  - set -e
-  - export CXX="g++-4.8" CC="gcc-4.8" GCOV="gcov-4.8"
-  - echo -e "travis_fold:start:host_tests"
-  - pushd $TRAVIS_BUILD_DIR/tests/host
-  - make
-  - make clean-objects
-  - echo -e "travis_fold:end:host_tests"
-  - echo -e "travis_fold:start:sketch_test_env_prepare"
-  - popd
-  - wget -O arduino.tar.xz https://www.arduino.cc/download.php?f=/arduino-nightly-linux64.tar.xz
-  - tar xf arduino.tar.xz
-  - mv arduino-nightly $HOME/arduino_ide
-  - cd $HOME/arduino_ide/hardware
-  - mkdir esp8266com
-  - cd esp8266com
-  - ln -s $TRAVIS_BUILD_DIR esp8266
-  - cd esp8266/tools
-  - python get.py
-  - export PATH="$HOME/arduino_ide:$HOME/arduino_ide/hardware/esp8266com/esp8266/tools/xtensa-lx106-elf/bin:$PATH"
-  - which arduino
-  - cd $TRAVIS_BUILD_DIR
-  - source tests/common.sh
-  - install_libraries
-  - echo -e "travis_fold:end:sketch_test_env_prepare"
-  - echo -e "travis_fold:start:sketch_test"
-  #- build_sketches $HOME/arduino_ide $SKETCH_LOCATION $BUILD_FOLDER "-l $LIBRARIES_LOCATION -b $BOARD_TYPE -s $FLASH_SIZE -f $CPU_SPEED --debug_port $DEBUG_PORT --debug_level $DEBUG_LEVEL"
-  - build_sketches $HOME/arduino_ide $SKETCH_LOCATION $BUILD_FOLDER "$LIBRARIES_LOCATION $OUTPUT_FILE $BOARD_TYPE $FLASH_SIZE $CPU_SPEED $DEBUG_PORT $DEBUG_LEVEL"
-  - echo -e "travis_fold:end:sketch_test"
-  - echo -e "travis_fold:start:size_report"
-  - cat size.log
-  - echo -e "travis_fold:end:size_report"
+  - platformio ci --board="esp12e" --build-dir="/tmp/build" --lib="." 
+
+  
+
+
+
+
+# sudo: false
+# language: bash
+# os:
+#   - linux
+# env:
+#   global:
+#   - BUILD_FOLDER=$TRAVIS_BUILD_DIR/build.tmp  
+#   - SKETCH_LOCATION="$TRAVIS_BUILD_DIR/libraries"
+#   - LIBRARIES_LOCATION="-l $HOME/Arduino/libraries"
+#   - BOARD_TYPE="-b generic"
+#   - FLASH_SIZE="-s 4M3M"    #512K0,512K64,1M512,4M1M,4M3M
+#   #- CPU_SPEED="-f 80" 
+#   #- OUTPUT_FILE="-o somefile"
+#   #- DEBUG_PORT="--debug_port Serial"
+#   #- DEBUG_LEVEL="--debug_level "
+# addons:
+#   apt:
+#     sources:
+#       - ubuntu-toolchain-r-test
+#     packages:
+#       - g++-4.8
+
+# script:
+#   - set -e
+#   - export CXX="g++-4.8" CC="gcc-4.8" GCOV="gcov-4.8"
+#   - echo -e "travis_fold:start:host_tests"
+#   - pushd $TRAVIS_BUILD_DIR/tests/host
+#   - make
+#   - make clean-objects
+#   - echo -e "travis_fold:end:host_tests"
+#   - echo -e "travis_fold:start:sketch_test_env_prepare"
+#   - popd
+#   - wget -O arduino.tar.xz https://www.arduino.cc/download.php?f=/arduino-nightly-linux64.tar.xz
+#   - tar xf arduino.tar.xz
+#   - mv arduino-nightly $HOME/arduino_ide
+#   - cd $HOME/arduino_ide/hardware
+#   - mkdir esp8266com
+#   - cd esp8266com
+#   - ln -s $TRAVIS_BUILD_DIR esp8266
+#   - cd esp8266/tools
+#   - python get.py
+#   - export PATH="$HOME/arduino_ide:$HOME/arduino_ide/hardware/esp8266com/esp8266/tools/xtensa-lx106-elf/bin:$PATH"
+#   - which arduino
+#   - cd $TRAVIS_BUILD_DIR
+#   - source tests/common.sh
+#   - install_libraries
+#   - echo -e "travis_fold:end:sketch_test_env_prepare"
+#   - echo -e "travis_fold:start:sketch_test"
+#   #- build_sketches $HOME/arduino_ide $SKETCH_LOCATION $BUILD_FOLDER "-l $LIBRARIES_LOCATION -b $BOARD_TYPE -s $FLASH_SIZE -f $CPU_SPEED --debug_port $DEBUG_PORT --debug_level $DEBUG_LEVEL"
+#   - build_sketches $HOME/arduino_ide $SKETCH_LOCATION $BUILD_FOLDER "$LIBRARIES_LOCATION $OUTPUT_FILE $BOARD_TYPE $FLASH_SIZE $CPU_SPEED $DEBUG_PORT $DEBUG_LEVEL"
+#   - echo -e "travis_fold:end:sketch_test"
+#   - echo -e "travis_fold:start:size_report"
+#   - cat size.log
+#   - echo -e "travis_fold:end:size_report"
 
 # after_success:
 #     - pushd $TRAVIS_BUILD_DIR/tests/host
