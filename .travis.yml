@@ -10,6 +10,8 @@ env:
   #- PLATFORMIO_CI_SRC="$TRAVIS_BUILD_DIR/libraries" 
   - PLATFORMIO_CI_SRC="$TRAVIS_BUILD_DIR/libraries/esp8266/examples/Blink/"
   - PLATFORMIO_CI_SRC="$TRAVIS_BUILD_DIR/libraries/ESP8266WebServer/examples/AdvancedWebServer"
+  - PLATFORMIO_CI_SRC="$TRAVIS_BUILD_DIR/libs/ESPmanager/examples"
+
 install:
   - pip install -U platformio
   - rm -f ./platformio/packages/framework-arduinoespressif
@@ -17,8 +19,10 @@ install:
   # - git clone https://github.com/sticilface/arduino-esp8266 ./platformio/packages/framework-arduinoespressif
   - platformio lib install 64
   - mkdir /tmp/build
+  - mkdir $TRAVIS_BUILD_DIR/libs
+  - git clone -b upgrade-gui https://github.com/sticilface/ESPmanager $TRAVIS_BUILD_DIR/libs/ESPmanager
 script:
-  - platformio ci --board="esp12e" --build-dir="/tmp/build" --lib="." 
+  - platformio ci --board="esp12e" --build-dir="/tmp/build" --lib="." --lib="$TRAVIS_BUILD_DIR/libs"
 
 
 
