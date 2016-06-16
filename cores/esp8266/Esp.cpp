@@ -444,7 +444,6 @@ uint32_t EspClass::getSketchSize() {
         DEBUG_SERIAL.printf("section=%u size=%u pos=%u\r\n", section_index, section_header.size, pos);
 #endif
     }
-
     result = (pos + 16) & ~15;
     return result;
 }
@@ -524,7 +523,6 @@ bool EspClass::flashRead(uint32_t offset, uint32_t *data, size_t size) {
 
 String EspClass::getSketchMD5()
 {
-
     static String result;
     if (result.length()) {
         return result;
